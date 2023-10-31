@@ -103,8 +103,7 @@ if __name__ == "__main__":
             continue
         lmPose = mp_pose.PoseLandmark
 
-        # Acquire the landmark coordinates.
-        # Once aligned properly, left or right should not be a concern.
+
         # Left shoulder.
         l_shldr_x = int(lm.landmark[lmPose.LEFT_SHOULDER].x * w)
         l_shldr_y = int(lm.landmark[lmPose.LEFT_SHOULDER].y * h)
@@ -121,8 +120,6 @@ if __name__ == "__main__":
         # Calculate distance between left shoulder and right shoulder points.
         offset = findDistance(l_shldr_x, l_shldr_y, r_shldr_x, r_shldr_y)
 
-        # Assist to align the camera to point at the side view of the person.
-        # Offset threshold 30 is based on results obtained from analysis over 100 samples.
         if offset < 100:
             cv2.putText(image, str(int(offset)) + ' Aligned', (w - 150, 30), font, 0.9, green, 2)
         else:
@@ -156,29 +153,29 @@ if __name__ == "__main__":
             bad_frames = 0
             good_frames += 1
 
-            # cv2.putText(image, angle_text_string, (10, 30), font, 0.9, light_green, 2)
-            # cv2.putText(image, str(int(neck_inclination)), (l_shldr_x + 10, l_shldr_y), font, 0.9, light_green, 2)
-            # cv2.putText(image, str(int(torso_inclination)), (l_hip_x + 10, l_hip_y), font, 0.9, light_green, 2)
-            #
-            # # Join landmarks.
-            # cv2.line(image, (l_shldr_x, l_shldr_y), (l_ear_x, l_ear_y), green, 4)
-            # cv2.line(image, (l_shldr_x, l_shldr_y), (l_shldr_x, l_shldr_y - 100), green, 4)
-            # cv2.line(image, (l_hip_x, l_hip_y), (l_shldr_x, l_shldr_y), green, 4)
-            # cv2.line(image, (l_hip_x, l_hip_y), (l_hip_x, l_hip_y - 100), green, 4)
+            cv2.putText(image, angle_text_string, (10, 30), font, 0.9, light_green, 2)
+            cv2.putText(image, str(int(neck_inclination)), (l_shldr_x + 10, l_shldr_y), font, 0.9, light_green, 2)
+            cv2.putText(image, str(int(torso_inclination)), (l_hip_x + 10, l_hip_y), font, 0.9, light_green, 2)
+
+            # Join landmarks.
+            cv2.line(image, (l_shldr_x, l_shldr_y), (l_ear_x, l_ear_y), green, 4)
+            cv2.line(image, (l_shldr_x, l_shldr_y), (l_shldr_x, l_shldr_y - 100), green, 4)
+            cv2.line(image, (l_hip_x, l_hip_y), (l_shldr_x, l_shldr_y), green, 4)
+            cv2.line(image, (l_hip_x, l_hip_y), (l_hip_x, l_hip_y - 100), green, 4)
 
         else:
             good_frames = 0
             bad_frames += 1
 
-            # cv2.putText(image, angle_text_string, (10, 30), font, 0.9, red, 2)
-            # cv2.putText(image, str(int(neck_inclination)), (l_shldr_x + 10, l_shldr_y), font, 0.9, red, 2)
-            # cv2.putText(image, str(int(torso_inclination)), (l_hip_x + 10, l_hip_y), font, 0.9, red, 2)
-            #
-            # # Join landmarks.
-            # cv2.line(image, (l_shldr_x, l_shldr_y), (l_ear_x, l_ear_y), red, 4)
-            # cv2.line(image, (l_shldr_x, l_shldr_y), (l_shldr_x, l_shldr_y - 100), red, 4)
-            # cv2.line(image, (l_hip_x, l_hip_y), (l_shldr_x, l_shldr_y), red, 4)
-            # cv2.line(image, (l_hip_x, l_hip_y), (l_hip_x, l_hip_y - 100), red, 4)
+            cv2.putText(image, angle_text_string, (10, 30), font, 0.9, red, 2)
+            cv2.putText(image, str(int(neck_inclination)), (l_shldr_x + 10, l_shldr_y), font, 0.9, red, 2)
+            cv2.putText(image, str(int(torso_inclination)), (l_hip_x + 10, l_hip_y), font, 0.9, red, 2)
+
+            # Join landmarks.
+            cv2.line(image, (l_shldr_x, l_shldr_y), (l_ear_x, l_ear_y), red, 4)
+            cv2.line(image, (l_shldr_x, l_shldr_y), (l_shldr_x, l_shldr_y - 100), red, 4)
+            cv2.line(image, (l_hip_x, l_hip_y), (l_shldr_x, l_shldr_y), red, 4)
+            cv2.line(image, (l_hip_x, l_hip_y), (l_hip_x, l_hip_y - 100), red, 4)
 
         # Calculate the time of remaining in a particular posture.
         good_time = (1 / fps) * good_frames
